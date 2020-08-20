@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}	
+
+	
+
+	<!--Test
+	<p id="demo">Test</p>
+	-->
+<div class="container">
+	<h3 class="header">Top Faults for <span class="text-black">{{ make }} {{ model }} {{ year }} model</span></h3>
+
+	<h3 class="header spacing"> Cars that failed testing: {{ total |floatformat:"2" }}</h3>
+	<div class="row">
+		<div>
+			<table class="table table-striped">
+				<tbody>
+				
+				<tr class="text-blue-big">
+				    <th class="header">Fault Description</th>
+				    <th class="header">Percentage(%)</th>
+				    <th class="header"></th>
+
+			    </tr>
+
+			    {% for record, percentage in results.items %}
+					<tr>
+						<td>				
+							<b>{{ record }}</b>
+						</td>
+						<td class="value-cell">
+						{{ percentage |floatformat:"2" }}%
+						</td>
+						<td>
+						<div id="rectangle" style="background:#2ECCFA; height: 15px;width:{{ percentage |floatformat:"2"}}px">&nbsp;</div>
+						</td>
+
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+</div>
+	
+
+{% endblock %}

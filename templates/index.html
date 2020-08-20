@@ -1,0 +1,163 @@
+  {% extends "base.html" %}
+    
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+
+    
+
+    <!-- Bootstrap -->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+
+    {% block content %}
+
+    <script>
+
+      var makeText;
+      var modelText;
+
+      $(function(){
+        options = '<option>make</option>';
+        var keys = {{ make|safe }};
+        keys.sort();
+        $.each(keys, function(index, value){options += '<option value="'+ value +'">' + value + '</option>';})
+        $("#make").html(options);          
+       });
+
+      function getModel(e){
+        options = '<option>model</option>';
+        var e = document.getElementById("make");
+        makeText = e.options[e.selectedIndex].text;        
+        $.ajax('/model',{
+          type: 'POST',
+          data: JSON.stringify({make: makeText}, null, '\t'),
+          contentType: 'application/json;charset=UTF-8',
+          success: function(result) {
+          var keys = $.parseJSON(result);
+          keys.sort();
+          $.each(keys, function(index, value){options += '<option value="'+ value +'">' + value + '</option>';})
+          $("#model").html(options);
+        }
+        });
+      }
+
+      function getYear(e){        
+        options = '<option>choose year</option>';
+        var e = document.getElementById("model");
+        modelText = e.options[e.selectedIndex].text;        
+        $.ajax('/year',{
+          type: 'POST',
+          data: JSON.stringify({make: makeText, model: modelText}, null, '\t'),
+          contentType: 'application/json;charset=UTF-8',
+          success: function(result) {
+          var year_keys = $.parseJSON(result);
+          year_keys.sort();
+          $.each(year_keys, function(index, value){options += '<option value="'+ value +'">' + value + '</option>';})      
+          $("#year").html(options);
+        }
+        });
+      }
+
+      $(function(){
+        $('#make').change(getModel);
+      });
+
+      $(function(){
+        $('#model').change(getYear);
+      });      
+      
+    </script>  
+
+
+    <!-- BANNER -->
+            <div id="banner" class="advert" data-section="1">
+                <div class="banner-container">
+                    <content class="banner-col">
+                        <h1 class="banner-title banner-format" style="font-size:60px">Buying a used or new <span id="banner-typeset" class="text-blue"></span></h1>                 
+                    </content><!-- .banner-col-centered -->
+                </div><!-- .banner-container -->                
+            </div><!-- .banner-section -->
+
+    <fieldset>
+
+    <!-- Form Name -->
+    
+    <!-- Car Make Selection -->
+        <form action="/results" method="POST">
+    
+    <div class="control-group indexbody">
+
+      <label id="maketext"class="control-label" for="car-make-input" style="font-size:20px">Select Car <b>Make</b></label>
+      <div class="controls">
+        <div class="input-append">
+          <!--<input id="car-make-input" name="car-make-input" class="input-xlarge" placeholder="e.g. Ford" type="text" required="">-->
+          <div class="btn-group">
+
+            <select id="make" class="selectbasic form-control input-lg" name="make"></select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Car Model Selection -->
+    <div class="control-group indexbody">
+
+      <label class="control-label" for="car-model-input" style="font-size:20px">Select <b>Model</b></label>
+      <div class="controls">
+        <div class="input-append">
+          <!--<input id="car-make-input" name="car-make-input" class="input-xlarge" placeholder="e.g. Fiesta" type="text" required="">-->
+          <div class="btn-group">
+
+            <select id="model" class="selectbasic form-control input-lg" name="model"></select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Year first on road Selection -->
+    <div class="control-group indexbody">
+      <label class="control-label" for="car-year-input" style="font-size:20px">Filter by <b>Year</b> (<i>optional</i>)</label>
+      <div class="controls">
+        <div class="input-append">
+          <!--<input id="car-make-input" name="car-make-input" class="input-xlarge" placeholder="e.g. Fiesta" type="text" required="">-->
+          <div class="btn-group">
+            <select id="year" class="selectbasic form-control input-lg" name="year"></select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search Buttons -->
+    <div class="form-group indexbuttons">
+      <label class="col-md-4 control-label" for="submit-button"></label>
+      <div class="col-md-4">
+       {% csrf_token %}
+        <input id="submit-button" name="submit-button" class="btn btn-warning btn-lg" type="submit" value="Display Top Faults"></input>
+
+
+          <input id="submit-button2" name="submit-button" class="btn btn-warning btn-lg" type="submit" value="Display Pass Rate"></input>
+
+      </div>
+
+    </div>
+     
+    </div> 
+
+    </fieldset>
+
+</form>
+
+<div>
+    <div class="banner-subtitle">
+        <content class="btn btn-default btn-lg" style="margin:0 auto;">                                        
+            <h3><a class="banner-subtitle" href="/">Pass rates and top faults for <span class="text-blue">NCT</span> tests</a></h3>    
+        </content><!-- .banner-col-centered -->
+    </div><!-- .banner-container -->                
+</div><!-- .banner-section -->
+
+{% endblock %}

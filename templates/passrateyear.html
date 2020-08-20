@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+	
+	<!--Test
+	<p id="demo">Test</p>
+	-->
+	
+	
+	<div class="container">
+	<h3 class="header spacing">Pass Rate for <span class="text-black">{{ make }} {{ model }} {{ year }}</span> model is:</h3>
+	<h3 class="header spacing"><span class="text-black">{{ rate }}%</span></h3>
+	<h3 class="header spacing"><span class="text-black">{{ count_pass}}</span> passes out of <span class="text-black">{{ Total }}</span> tests</h3>
+
+	<h3 class="header spacing">How this compares to the most popular {{ year }} models:</h3>
+	<div class="row">
+		<div>
+			<table class="table table-striped">
+				
+				<tr class="text-blue-big">
+				    <th class="header">Vehicle</th>
+				    <th class="header"> Passed</th>
+				    <th class="header"> Total Attended</th>
+				    <th class="header">Avg Pass(%)</th>
+			    </tr>
+				<td> {{ make }}</td>
+	                <td> {{ count_pass }} </td>
+                     <td> {{ Total }} </td>
+                     <td> {{ rate }} </td>
+				
+			
+			</table>
+		</div>
+	</div>
+
+	<h3 class="header spacing"><a href="/">Check pass rate for other models</a></h3>
+
+	</div>
+
+			
+
+{% endblock %}

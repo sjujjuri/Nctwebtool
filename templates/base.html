@@ -1,0 +1,44 @@
+{% load static %}
+<html>
+  <head>
+    <title>{{ title }}</title>
+      <link rel="shortcut icon" href="{% static "favicon.ico" %}">
+      <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
+      <link rel="stylesheet" href="{% static 'custom.css' %}">
+      <script src="{% static  "jquery-1.11.3.min.js" %}"></script>
+      <script src="{% static "bootstrap.min.js" %}"></script>
+      <script src="{% static "vendor.js" %}"></script>
+      <script src="{% static "main.js" %}"> </script>
+       
+  </head>
+  <body>
+        <div id="header">
+          <div class="container">
+              <div class="navbar-header">
+                <a id="header-logo" href="/"><img src="{% static "nct-logo.png" %}" alt="NCTpedia"></a>
+
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-main">
+                   <span class="sr-only">Toggle navigation</span>
+                   <span class="glyphicon glyphicon-menu-hamburger"></span>
+                </button>
+              </div>
+
+              <div class="nav navbar-collapse collapse" id="navbar-main">
+                <ul>
+                  <li><a href="/">Home</a></li>
+                  <li><a href="/about">About this project</a></li>
+                  <li><a href=#<Contact Us</a></li>
+                </ul>
+              </div>
+          </div>
+        </div>
+        
+      <div class="wrapper">            
+        {% block content %}{% endblock %}
+        <div class="push"></div>
+      </div>
+      
+  </body>
+  
+  
+</html>
